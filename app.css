@@ -1,0 +1,44 @@
+:root { --bg:#10131a; --panel:#161b26; --fg:#e8e6e1; --dim:#8b93a1; --accent:#f090b0; --ok:#49c17a; --warn:#e0a33a; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); overflow:hidden;
+    font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; -webkit-text-size-adjust:100%; }
+  /* Column layout rather than an overlaid HUD: the control bar used to sit on
+     top of the bottom of the screen, which is exactly where the game puts its
+     dialogue box. The canvas gets the leftover height instead. */
+  body { display:flex; flex-direction:column; }
+  #wrap { flex:1 1 auto; min-height:0; display:flex; align-items:center; justify-content:center; padding:4px; }
+  /* width/height:auto would leave the canvas at its intrinsic 240x160. Filling
+     the box and letting object-fit letterbox it is what actually scales up
+     while keeping 3:2. */
+  canvas { display:block; background:#000; image-rendering:pixelated;
+    width:100%; height:100%; object-fit:contain; }
+  #overlay { position:fixed; inset:0; z-index:50; display:flex; flex-direction:column; gap:18px;
+    align-items:center; justify-content:center; background:rgba(16,19,26,.97); padding:24px; text-align:center; }
+  #overlay.hidden { display:none; }
+  h1 { margin:0; font-size:clamp(20px,5vw,30px); letter-spacing:.01em; }
+  .sub { margin:0; color:var(--dim); max-width:60ch; }
+  #pick { background:var(--panel); border:2px dashed #2c3545; border-radius:14px; padding:26px 34px;
+    cursor:pointer; max-width:62ch; transition:border-color .15s, background .15s; }
+  #pick:hover,#pick.drag { border-color:var(--accent); background:#1b2130; }
+  #pick b { display:block; font-size:16px; margin-bottom:6px; }
+  #pick .hint { color:var(--dim); font-size:12.5px; }
+  #rom-file { display:none; }
+  .note { color:var(--dim); font-size:12.5px; max-width:62ch; }
+  .note strong { color:var(--fg); font-weight:600; }
+  #err { color:#ff7a6b; min-height:1.4em; }
+  #hud { flex:0 0 auto; display:flex; gap:10px; flex-wrap:wrap;
+    align-items:center; justify-content:center; padding:7px 12px; background:#0c0f15;
+    border-top:1px solid #1e2531; color:var(--dim); font-size:12px; }
+  #hud button { background:var(--panel); color:var(--fg); border:1px solid #2c3545; border-radius:7px;
+    padding:5px 11px; font:inherit; cursor:pointer; }
+  #hud button:hover { border-color:var(--accent); }
+  #hud .sep { opacity:.4; }
+  #mutebtn.muted { color:var(--warn); }
+  #savedot { color:var(--ok); opacity:0; transition:opacity .3s; }
+  #savedot.on { opacity:1; }
+  kbd { border:1px solid #3a4454; border-bottom-width:2px; border-radius:4px; padding:0 5px;
+    font:11.5px ui-monospace,monospace; color:var(--fg); }
+  @media (max-width:760px) { #hud .deskonly { display:none; } }
+
+  /* oncontextmenu was an inline handler on the canvas; the CSP forbids inline
+     script, so app.js registers it instead. */
+  #overlay a { color:#8ab4f8; }

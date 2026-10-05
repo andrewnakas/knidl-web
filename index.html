@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kirby: Nightmare in Dream Land</title>
+<!--
+  The CSP is the real boundary for "your ROM is never uploaded", not the prose
+  below it. `connect-src 'self'` means this page physically cannot open a
+  connection to any other origin: no CDN, no analytics, no upload, whatever the
+  script tries. `default-src 'none'` closes everything not named.
+
+  There is deliberately NO 'unsafe-inline' and NO 'unsafe-eval' -- which is why
+  the CSS and the application script live in their own files instead of inline
+  in this document. 'wasm-unsafe-eval' is the narrow grant that lets the browser
+  compile the mGBA module; it does not enable JS eval().
+
+  frame-ancestors is intentionally absent: the catalog embeds this page in an
+  iframe, and naming 'none' here would break that. Everything that could carry
+  a ROM off the device is still closed by connect-src.
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'none';
+  script-src 'self' 'wasm-unsafe-eval';
+  style-src 'self';
+  img-src 'self' data:;
+  connect-src 'self';
+  worker-src 'self';
+  base-uri 'none';
+  form-action 'none'">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="wrap"><canvas id="canvas" width="240" height="160" tabindex="-1"></canvas></div>
+
+<div id="overlay">
+  <h1>Kirby: Nightmare in Dream Land</h1>
+  <p class="sub">Built from the <a href="https://github.com/overjt/knidl">overjt/knidl</a>
+     decompilation, running on a WebAssembly build of the mGBA core.</p>
+  <div id="pick">
+    <b>Choose your Kirby: Nightmare in Dream Land ROM</b>
+    <span class="hint">click here, or drag the file in &middot; .gba, 8&nbsp;MB, USA (A7KE)</span>
+  </div>
+  <input id="rom-file" type="file" accept=".gba,.bin">
+  <p class="note"><strong>Your ROM stays on this device.</strong> It is read into memory with the
+     browser's own file reader and kept in this page's local storage so you don't have to pick it
+     again. There is no server to upload to &mdash; this page is static files, and its
+     Content-Security-Policy blocks connections to every origin but its own.</p>
+  <p id="err"></p>
+</div>
+
+<div id="hud">
+  <span id="stat">loading&hellip;</span>
+  <span class="sep">|</span>
+  <button id="mutebtn" class="muted">&#128263; muted &mdash; click for sound</button>
+  <button id="savebtn">save state</button>
+  <button id="loadbtn">load state</button>
+  <button id="forget">forget ROM</button>
+  <span id="savedot">&#9679; saved</span>
+  <span class="sep deskonly">|</span>
+  <span class="deskonly"><kbd>X</kbd> A &middot; <kbd>Z</kbd> B &middot; <kbd>&crarr;</kbd> Start &middot;
+    <kbd>&#8679;</kbd> Select &middot; arrows &middot; <kbd>A</kbd>/<kbd>S</kbd> L/R</span>
+</div>
+
+<script src="knidl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

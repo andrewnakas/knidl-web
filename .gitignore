@@ -1,0 +1,47 @@
+# No ROMs, ever -- not the user's dump, not anything built from it, and nothing
+# extracted from one. This project ships code and build tooling only.
+*.nes
+*.gb
+*.gbc
+*.sfc
+*.smc
+*.md
+*.gba
+*.z64
+*.iso
+*.gcm
+*.rvz
+baserom*
+knidl.gba
+knidl-mod.gba
+
+# TRAP: `*.md` above is for Mega Drive images, and it also matches every
+# Markdown file. Un-ignore THIS PROJECT'S documents by name rather than with a
+# blanket `!*.md`, which would quietly let a real .md ROM back in.
+# After editing, `git check-ignore -v STATUS.md` must print nothing.
+!STATUS.md
+!notes/*.md
+
+# Anything decoded or extracted from a ROM at build time.
+assets/
+build/
+
+# The upstream clone is somebody else's repository; it is checked out here for
+# building, never vendored into this one.
+upstream/
+
+# Browser build output and the wasm core (both rebuilt by `make` in web/).
+web/dist/
+web/test/core-node.js
+web/test/core-node.wasm
+
+# Test artefacts. Screenshots and frame dumps are pictures OF the game, so they
+# are assets too and must not be committed.
+shots/
+frames/
+*.ppm
+*.png
+
+__pycache__/
+*.pyc
+web/dist/_nocsp.html
